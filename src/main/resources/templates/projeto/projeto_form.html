@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <div><h2 class="text-center">[[${pageTitle}]]</h2></div>
+        <form action="/projeto/salvar" method="post">
+            <input type="hidden" th:field="*{projeto.id}"/>
+            <div>
+                <label for="nome">Projeto</label>
+                <input type="text" name="nome" th:field="*{projeto.nome}"/>
+            </div>
+            <div>
+                <label for="dataInicio">Data Início</label>
+                <input type="text" name="dataInicio" th:field="*{projeto.dataInicio}"/>
+            </div>
+            <div>
+                <label for="dataFim">Data Fim</label>
+                <input type="text" name="dataFim" th:field="*{projeto.dataFim}"/>
+            </div>
+            <div>
+                <label for="dataPrevisao">Data Previsão</label>
+                <input type="text" name="dataPrevisao" th:field="*{projeto.dataPrevisao}"/>
+            </div>            
+            <div>
+                <label for="status">Status</label>
+                <select name="status" th:value="*{projeto.status}">
+                    <option>Selecione</option>
+                    <option th:each="sts : ${status}" th:value="${sts}" th:field="${projeto.status}" th:text="${sts.descr}"/>
+                </select>
+            </div>
+            <div>
+                <label for="orcamento">Orçamento</label>
+                <input type="text" name="orcamento" th:field="*{projeto.orcamento}"/>
+            </div>
+            <div>
+                <label for="risco">Risco</label>
+                <select name="risco" th:value="*{projeto.risco}">
+                    <option>Selecione</option>
+                    <option th:each="risco : ${riscos}" th:value="${risco}" th:field="${projeto.risco}" th:text="${risco.descr}"/>
+                </select>
+            </div>
+            <div>
+                <label for="gerente">Gerente</label>
+                <select id="gerente" name="gerente" th:value="*{projeto.gerente.id}">
+                    <option>Selecione</option>
+                    <option th:each="pessoa : ${pessoas}" th:value="${pessoa.id}" 
+                        th:field="*{projeto.gerente.id}" th:text="${pessoa.nome}"></option>
+                </select>
+            </div>    
+            <div>
+                <label for="descricao">Descricao</label>
+                <textarea name="descricao" th:field="*{projeto.descricao}"></textarea>
+            </div> 
+
+            <table border=1  th:unless="${#lists.isEmpty(projeto.membros)}" >
+                <tr>
+                    <td>Nome</td>
+                </tr>
+                <tr th:each="membro : ${projeto.membros}">
+                    <td th:text="${membro.nome}"></td>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <button type="submit">Cadastrar</button>        
+        </form>
+    </body>
+</html>
