@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <div th:if="${message != null}">
+            [[${message}]]
+
+        </div>        
+        <br>
+        <table border=1>
+            <tr>
+                <td>Nome</td>
+                <td>Data Inicio</td>
+                <td>Data Previsão</td>
+                <td>Data Fim</td>
+                <td>Status</td>
+                <td>Risco</td>
+                <td>Gerente</td>
+                <td></td>
+            </tr>
+            <tr th:each="projeto : ${projetos}">
+                <td th:text="${projeto.nome}"></td>
+                <td th:text="${projeto.DataInicio}"></td>
+                <td th:text="${projeto.dataPrevisao}"></td>
+                <td th:text="${projeto.dataFim}"></td>
+                <td th:text="${projeto.status.descr}"></td>
+                <td th:text="${projeto.risco.descr}"></td>
+                <td th:text="${projeto.gerente.nome}"></td>
+                <td>
+                    <a th:href="@{'/projeto/' + ${projeto.id}}"><button>Editar</button></a>
+                  &nbsp;
+                  <a th:href="@{'/projeto/excluir/' + ${projeto.id}}"><button>Excluir</button</a>
+
+                </td>
+            </tr>
+        </table>
+        <br>
+        <div>
+            <a href="/projeto/novo"><button>Novo</button></a>
+        </div>
+    </body>
+</html>
