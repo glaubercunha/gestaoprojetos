@@ -2,6 +2,7 @@ package br.com.gestaoprojetos.domain.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.gestaoprojetos.domain.util.RiscoProjeto;
@@ -47,11 +48,13 @@ public @Data class Projeto {
     private StatusProjeto status;
 
     @ManyToOne
-    private Pessoa gerente;
+    @Builder.Default
+    private Pessoa gerente = new Pessoa();
 
     @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinTable(name = "membros",
         joinColumns = @JoinColumn(name = "projeto_id"),
         inverseJoinColumns = @JoinColumn(name = "pessoa_id") )
-    private List<Pessoa> membros;
+    @Builder.Default
+    private List<Pessoa> membros = new ArrayList<>();
 }

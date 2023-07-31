@@ -21,12 +21,14 @@ public class ProjetoService {
     }
 
     public Projeto save(Projeto projeto) throws ApplicationException {
-        boolean contemNaoFuncionarios = projeto.getMembros().stream()
+        if (projeto.getMembros() != null){
+            boolean contemNaoFuncionarios = projeto.getMembros().stream()
             .filter(pessoa -> !pessoa.isFuncionario())
             .findAny().isPresent();
-
-        if (contemNaoFuncionarios) {
-            throw new ApplicationException(MSG_MEMBRO_NAO_FUNCIONARIO);
+            
+            if (contemNaoFuncionarios) {
+                throw new ApplicationException(MSG_MEMBRO_NAO_FUNCIONARIO);
+            }
         }
         
         return repository.save(projeto);
@@ -38,11 +40,6 @@ public class ProjetoService {
 
     public void delete(Long id) throws ApplicationException {
         Projeto projeto = findById(id);
-        // if (StatusProjeto.INICIADO ==  projeto.getStatus()
-        //     || StatusProjeto.EM_ANDAMENTO ==  projeto.getStatus()
-        //     || StatusProjeto.ENCERRADO ==  projeto.getStatus()){
-        //         throw new ApplicationException("Não é permitido excluir projeto com status iniciado, em andamento ou encerrado");
-        // }
         switch (projeto.getStatus()) {
             case INICIADO, EM_ANDAMENTO, ENCERRADO -> {
                 throw new ApplicationException(NAO_PERMITIDO_EXCLUIR_POR_STATUS);
